@@ -2,6 +2,8 @@ package com.example.weatherapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.weatherapp.repo.WeatherRepo
+import com.example.weatherapp.repo.local.WeatherDao
 import com.example.weatherapp.repo.local.WeatherDatabase
 import com.example.weatherapp.repo.remote.WeatherService
 import com.example.weatherapp.util.Constants
@@ -36,6 +38,9 @@ object WeatherModule {
     fun provideWeatherDao(weatherDatabase: WeatherDatabase) = weatherDatabase.weatherDao()
 
     @Provides @Singleton
-    fun provideWeatherRepo() =
+    fun provideWeatherRepo(
+        remote: WeatherService,
+        local: WeatherDao
+    ): WeatherRepo = WeatherRepo(remote, local)
 
 }

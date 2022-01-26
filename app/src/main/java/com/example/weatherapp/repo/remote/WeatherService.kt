@@ -1,5 +1,6 @@
 package com.example.weatherapp.repo.remote
 
+import com.example.weatherapp.model.WeatherJson
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,14 +14,14 @@ interface WeatherService {
         @Query(value = "key") apiKey: String = API_KEY,
         @Query(value = "q") query: String,
         @Query(value = "aqi") aqi: String = "no"
-    )
+    ): WeatherJson
 
     @GET("forecast.json")
-    suspend fun forecast(
+    suspend fun forecastWeather(
         @Query(value = "key") apiKey: String = API_KEY,
         @Query(value = "q") query: String,
         @Query(value = "days") days: Int,
         @Query(value = "aqi") aqi: String = "no",
         @Query(value = "alerts") alerts: String = "no"
-    )
+    ): WeatherJson
 }
