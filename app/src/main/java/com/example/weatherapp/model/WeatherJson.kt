@@ -4,14 +4,12 @@ import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class WeatherJson(
     val location: WeatherLocation,
     val current: WeatherCurrent,
     //val forecast: WeatherForecast
-): Parcelable
+)
 
-@Parcelize
 data class WeatherLocation(
     val name: String,
     val region: String,
@@ -22,9 +20,8 @@ data class WeatherLocation(
     @Json(name = "localtime_epoch")
     val localtimeEpoch: Int,
     val localtime: String
-): Parcelable
+)
 
-@Parcelize
 data class WeatherCurrent(
     @Json(name = "last_updated_epoch") val lastUpdatedEpoch: Int,
     @Json(name = "last_updated") val lastUpdated: String,
@@ -49,14 +46,13 @@ data class WeatherCurrent(
     val uv: Double,
     @Json(name = "gust_mph") val gustMph: Double,
     @Json(name = "gust_kph") val gustKph: Double,
-): Parcelable
+)
 
-@Parcelize
 data class WeatherCondition(
     val text: String,
     val icon: String,
     val code: Int
-): Parcelable
+)
 
 data class Hour(
     val chance_of_rain: Int,

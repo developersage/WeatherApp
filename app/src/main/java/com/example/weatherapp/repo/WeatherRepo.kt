@@ -33,9 +33,9 @@ class WeatherRepo @Inject constructor(
         }
     }
 
-    private suspend fun deleteWeather(weather: WeatherJson) {
+    suspend fun deleteWeather(weather: WeatherData) {
         withContext(Dispatchers.IO) {
-            dao.deleteData(weather = WeatherData.convertFromAPI(weather))
+            dao.deleteData(weather = weather)
         }
     }
 
