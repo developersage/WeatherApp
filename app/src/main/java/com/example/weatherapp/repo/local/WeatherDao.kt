@@ -11,8 +11,9 @@ interface WeatherDao {
     @Query("SELECT * FROM ${Constants.TABLE_NAME}")
     fun getAllData(): Flow<List<WeatherData>>
 
-    @Query("SELECT * FROM ${Constants.TABLE_NAME} WHERE id = :weather_id")
-    fun getData(weather_id: Int): Flow<WeatherData>
+//    //Only necessary for compose UI
+//    @Query("SELECT * FROM ${Constants.TABLE_NAME}")
+//    fun getFirstData(): Flow<WeatherData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertData(weather: WeatherData)
@@ -20,7 +21,8 @@ interface WeatherDao {
     @Delete
     fun deleteData(weather: WeatherData)
 
-    @Query("DELETE FROM ${Constants.TABLE_NAME}")
-    fun deleteAllData()
+//    //Not needed.
+//    @Query("DELETE FROM ${Constants.TABLE_NAME}")
+//    fun deleteAllData()
 
 }

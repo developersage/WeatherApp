@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/weather_list"
+        android:orderInCategory="@integer/material_motion_duration_medium_1"
+        android:title="@string/weather_list"
+        app:showAsAction="never"/>
+
+    <group
+        android:id="@+id/degree_type"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/fahrenheit"
+            android:orderInCategory="@integer/material_motion_duration_medium_1"
+            android:title="@string/fahrenheit"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/celsius"
+            android:orderInCategory="@integer/material_motion_duration_medium_1"
+            android:title="@string/celsius"
+            app:showAsAction="never"/>
+    </group>
+
+</menu>
