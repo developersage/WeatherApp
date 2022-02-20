@@ -1,15 +1,16 @@
 package com.example.weatherapp.model
 
-import android.os.Parcelable
 import com.squareup.moshi.Json
-import kotlinx.parcelize.Parcelize
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class WeatherJson(
     val location: WeatherLocation,
     val current: WeatherCurrent,
     //val forecast: WeatherForecast
 )
 
+@JsonClass(generateAdapter = true)
 data class WeatherLocation(
     val name: String,
     val region: String,
@@ -22,6 +23,7 @@ data class WeatherLocation(
     val localtime: String
 )
 
+@JsonClass(generateAdapter = true)
 data class WeatherCurrent(
     @Json(name = "last_updated_epoch") val lastUpdatedEpoch: Int,
     @Json(name = "last_updated") val lastUpdated: String,
@@ -48,12 +50,14 @@ data class WeatherCurrent(
     @Json(name = "gust_kph") val gustKph: Double,
 )
 
+@JsonClass(generateAdapter = true)
 data class WeatherCondition(
     val text: String,
     val icon: String,
     val code: Int
 )
 
+@JsonClass(generateAdapter = true)
 data class Hour(
     val chance_of_rain: Int,
     val chance_of_snow: Int,
@@ -90,6 +94,7 @@ data class Hour(
     val windchill_f: Double
 )
 
+@JsonClass(generateAdapter = true)
 data class Condition(
     val code: Int,
     val icon: String,

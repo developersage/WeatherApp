@@ -8,13 +8,13 @@ import com.example.weatherapp.model.WeatherData
 
 class WeatherAdapter (
     private val weatherList: List<WeatherData>,
-    private val weatherSelected: (WeatherData) -> Unit
+    private val weatherSelectedPosition: (Int) -> Unit
 ): RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): WeatherViewHolder = WeatherViewHolder.getInstance(parent).apply {
-        itemView.setOnClickListener { weatherSelected(weatherList[adapterPosition]) }
+        itemView.setOnClickListener { weatherSelectedPosition(adapterPosition) }
     }
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
@@ -30,7 +30,7 @@ class WeatherAdapter (
         fun loadWeather(weather:WeatherData) = with(binding) {
             tvCity.text = weather.name
             tvState.text = weather.region
-            val temp = "${weather.tempC}°C / ${weather.tempF}°F"
+            val temp = "${weather.tempC}°C/${weather.tempF}°F"
             tvTemp.text = temp
             val lonLat = "Lat: ${weather.latitude}, Lon: ${weather.longitude}"
             tvLonlat.text = lonLat

@@ -12,8 +12,8 @@ interface WeatherDao {
     fun getAllData(): Flow<List<WeatherData>>
 
 //    //Only necessary for compose UI
-//    @Query("SELECT * FROM ${Constants.TABLE_NAME} WHERE id = :weather_id")
-//    fun getData(weather_id: Int): Flow<WeatherData>
+//    @Query("SELECT * FROM ${Constants.TABLE_NAME}")
+//    fun getFirstData(): Flow<WeatherData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertData(weather: WeatherData)

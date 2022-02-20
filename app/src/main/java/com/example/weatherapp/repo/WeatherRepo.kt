@@ -5,6 +5,7 @@ import com.example.weatherapp.model.WeatherJson
 import com.example.weatherapp.repo.local.WeatherDao
 import com.example.weatherapp.repo.local.WeatherDatabase
 import com.example.weatherapp.repo.remote.WeatherService
+import com.example.weatherapp.util.logMe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext

@@ -14,8 +14,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.util.ViewState
+import com.example.weatherapp.util.logMe
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
     }
+    var mainMenu: Menu? = null
     var showProgress: Boolean = true
         set(value) {
             field = value
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        this.mainMenu = menu
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
@@ -57,40 +61,50 @@ class MainActivity : AppCompatActivity() {
                 navHostFragment.navController.navigateUp()
                 true
             }
+            R.id.fahrenheit -> {
+                item.isChecked = true
+                true
+            }
+            R.id.celsius -> {
+                item.isChecked = true
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 
     private fun initViews() = with(binding){
         setSupportActionBar(binding.topBar)
         showProgress = false
 
+        navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.list_fragment -> { showMenu(true) }
+                R.id.weather_fragment -> { showMenu(false) }
+            }
+        }
     }
 
     private fun initObserver() = with(viewModel) {
         lifecycleScope.launchWhenCreated {
-            viewState.observe(this@MainActivity) { state ->
+            weatherList.observe(this@MainActivity) { list ->
+                val item = list.firstOrNull()
+
                 navHostFragment.navController.apply {
-                    graph = navInflater.inflate(R.navigation.nav_graph).apply {
-                        showProgress = when (state) {
-                            is ViewState.Loading -> {
-                                true
-                            }
-                            is ViewState.Error -> {
-                                setStartDestination(R.id.list_fragment)
-                                false
-                            }
-                            is ViewState.Success -> {
-                                setStartDestination(R.id.weather_fragment)
-                                false
-                            }
-                        }
+                    graph = navInflater.inflate(R.navigation.nav_graph)
+
+                    if (item != null) {
+                        val action = ListFragmentDirections.goToWeather(1)
+                        this.navigate(action)
+                        weatherList.removeObservers(this@MainActivity)
                     }
                 }
             }
         }
     }
 
-
+    private fun showMenu(show: Boolean) = with(binding) {
+        mainMenu?.findItem(R.id.fahrenheit)?.isVisible = show
+        mainMenu?.findItem(R.id.celsius)?.isVisible = show
+    }
 }

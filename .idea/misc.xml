@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../Library/CloudStorage/OneDrive-Personal/AndroidStudioProject/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.15070921985815602" />
+        <entry key="../../../Library/CloudStorage/OneDrive-Personal/AndroidStudioProject/WeatherApp/app/src/main/res/layout/fragment_list.xml" value="0.11956521739130435" />
+        <entry key="../../../Library/CloudStorage/OneDrive-Personal/AndroidStudioProject/WeatherApp/app/src/main/res/layout/fragment_weather.xml" value="0.2658514492753623" />
+        <entry key="../../../Library/CloudStorage/OneDrive-Personal/AndroidStudioProject/WeatherApp/app/src/main/res/layout/item_detail_weather.xml" value="0.15070921985815602" />
+        <entry key="../../../Library/CloudStorage/OneDrive-Personal/AndroidStudioProject/WeatherApp/app/src/main/res/layout/item_weather.xml" value="0.15070921985815602" />
+        <entry key="../../../Library/CloudStorage/OneDrive-Personal/AndroidStudioProject/WeatherApp/app/src/main/res/menu/main_menu.xml" value="0.24444444444444444" />
         <entry key="../../../Library/CloudStorage/OneDrive-Personal/AndroidStudioProject/WeatherApp/app/src/main/res/mipmap-anydpi-v26/ic_cloud.xml" value="0.1405" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20878623188405798" />
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.25815217391304346" />

@@ -5,3 +5,4 @@ sealed class ViewState<out T> {
     data class Success<T>(val item: T): ViewState<T>()
     data class Error(val errorMsg: String?): ViewState<Nothing>()
 }
+

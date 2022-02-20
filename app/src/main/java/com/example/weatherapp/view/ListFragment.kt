@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
@@ -20,7 +22,7 @@ import com.example.weatherapp.viewmodel.WeatherViewModel
 
 class ListFragment : Fragment() {
 
-    private val viewModel: WeatherViewModel by viewModels()
+    private val viewModel: WeatherViewModel by activityViewModels()
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
 
@@ -33,7 +35,8 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpBtnFetch()
-        observeViewState()
+        setUpSwipeDelete()
+        observeWeatherList()
     }
 
     override fun onDestroyView() {
@@ -43,33 +46,40 @@ class ListFragment : Fragment() {
 
     private fun setUpBtnFetch() = with(binding) {
         btnFetch.setOnClickListener {
-            viewModel.fetchCurrent(etSearchbar.text.toString())
-        }
-    }
-
-    private fun itemSelected(item: WeatherData) = with(findNavController()) {
-        val action = ListFragmentDirections.goToWeather(item)
-        navigate(action)
-    }
-
-    private fun observeViewState() = with(viewModel) {
-        viewState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is ViewState.Loading -> { (activity as? MainActivity)?.showProgress = true }
-                is ViewState.Error -> { (activity as? MainActivity)?.showProgress = false }
-                is ViewState.Success -> {
-                    (activity as? MainActivity)?.showProgress = false
-                    binding.rcWeatherList.adapter = WeatherAdapter(state.item, ::itemSelected)
-
-                    val swipeHandler = object : SwipeToDelete() {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            deleteWeather(state.item[viewHolder.adapterPosition])
-                        }
+            val query = etSearchbar.text.toString()
+            viewModel.fetchCurrent(query).observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is ViewState.Loading -> { (activity as? MainActivity)?.showProgress = true }
+                    is ViewState.Error -> {
+                        (activity as? MainActivity)?.showProgress = false
+                        Toast.makeText(context, state.errorMsg, Toast.LENGTH_SHORT).show()
                     }
-                    ItemTouchHelper(swipeHandler).attachToRecyclerView(binding.rcWeatherList)
+                    is ViewState.Success -> {
+                        (activity as? MainActivity)?.showProgress = false
+                    }
                 }
             }
         }
     }
 
+    private fun itemSelected(position: Int) = with(findNavController()) {
+        val action = ListFragmentDirections.goToWeather(position)
+        navigate(action)
+    }
+
+    private fun observeWeatherList() = with(viewModel) {
+        weatherList.observe(viewLifecycleOwner) { weatherList ->
+            binding.rcWeatherList.adapter = WeatherAdapter(weatherList, ::itemSelected)
+        }
+    }
+
+    private fun setUpSwipeDelete() = with(viewModel) {
+        val swipeHandler = object : SwipeToDelete() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = weatherList.value?.get(viewHolder.adapterPosition)
+                deleteWeather(item!!)
+            }
+        }
+        ItemTouchHelper(swipeHandler).attachToRecyclerView(binding.rcWeatherList)
+    }
 }

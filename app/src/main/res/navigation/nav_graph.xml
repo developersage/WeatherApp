@@ -18,10 +18,10 @@
         android:id="@+id/weather_fragment"
         android:name="com.example.weatherapp.view.WeatherFragment"
         android:label="Weather Detail"
-        tools:layout="@layout/fragment_weather">
+        tools:layout="@layout/item_detail_weather">
         <argument
-            android:name="weather"
-            app:argType="com.example.weatherapp.model.WeatherData" />
+            android:name="position"
+            app:argType="integer" />
     </fragment>
 
 
